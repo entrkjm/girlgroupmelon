@@ -1,0 +1,137 @@
+	<!-- 차트 -->
+	<form id="frm" name="frm">
+	<div class="tb_list type02 d_song_list" >
+		<div class="wrap_btn_tb top">
+			<button type="button" title="곡 목록 전체 선택" class="btn_base short check_all d_checkall"><span class="odd_span"><span class="even_span">전체선택</span></span></button>
+			<button type="button" title="선택된 곡 재생 - 새 창" class="btn_base short play d_listen" onClick="melon.play.playFormSong('19080101','frm');"><span class="odd_span"><span class="even_span">듣기</span></span></button>
+			<button type="button" title="선택된 곡 다운로드 - 새 창" class="btn_base short download d_download" onClick="melon.buy.goBuyProduct('frm','','3C0001','input_check','0','');"><span class="odd_span"><span class="even_span">다운</span></span></button>
+			<button type="button" title="선택된 곡 담기 - 새 창" class="btn_base short scrap d_scrap" onClick="melon.play.addFormPlayList('frm');"><span class="odd_span"><span class="even_span">담기</span></span></button>
+			<button type="button" title="선택된 곡 선물하기 - 새 창" class="btn_base short gift d_gift" onClick="melon.buy.goPresent('song', 'frm', '19080101');"><span class="odd_span"><span class="even_span">선물</span></span></button>
+			<button type="button" title="TOP 100 듣기 - 새 창" class="btn_base short play_top" onClick="playChart();"><span class="odd_span"><span class="even_span">TOP 100 듣기</span></span></button>
+		</div>
+		<table border="1" style="width:1008px">
+			<caption>곡별 순위차트입니다. 곡별 순위별 오름차순으로 정렬됩니다.</caption>
+			<colgroup><col style="width:29px"><col style="width:80px"><col style="width:64px"><col style="width:100%"><col style="width:82px"><col style="width:49px"><col style="width:40px"></colgroup>
+			<thead>
+				<tr>
+					<th scope="col"><div class="wrap pd_none left">
+						<input type="checkbox" title="곡 목록 전체 선택" class="input_check d_checkall" />
+					</div></th>
+					<th scope="col"><div class="wrap pd_none">순위</div></th>
+					<th scope="col"><div class="wrap none">앨범</div></th>
+					<th scope="col"><div class="wrap">곡정보</div></th>
+					<th scope="col" class="t_left"><div class="wrap right_none">좋아요</div></th>
+					<th scope="col"><div class="wrap pd_none left">뮤비</div></th>
+					<th scope="col"><div class="wrap pd_none right">다운</div></th>
+				</tr>
+			</thead>
+			<tbody id="chartListObj">
+				
+
+				
+			</tbody>
+		</table>
+		<div class="wrap_btn_tb bottom">
+			<button type="button" title="곡 목록 전체 선택" class="btn_base short check_all d_checkall"><span class="odd_span"><span class="even_span">전체선택</span></span></button>
+			<button type="button" title="선택된 곡 재생 - 새 창" class="btn_base short play d_listen" onClick="melon.play.playFormSong('','frm');"><span class="odd_span"><span class="even_span">듣기</span></span></button>
+			<button type="button" title="선택된 곡 다운로드 - 새 창" class="btn_base short download d_download" onClick="melon.buy.goBuyProduct('frm','','3C0001','input_check','0','');"><span class="odd_span"><span class="even_span">다운</span></span></button>
+			<button type="button" title="선택된 곡 담기 - 새 창" class="btn_base short scrap d_scrap" onClick="melon.play.addFormPlayList('frm');"><span class="odd_span"><span class="even_span">담기</span></span></button>
+			<button type="button" title="선택된 곡 선물하기 - 새 창" class="btn_base short gift d_gift" onClick="melon.buy.goPresent('song', 'frm', '19080101');"><span class="odd_span"><span class="even_span">선물</span></span></button>
+			<button type="button" title="TOP 100 듣기 - 새 창" class="btn_base short play_top" onClick="playChart();"><span class="odd_span"><span class="even_span">TOP 100 듣기</span></span></button>
+		</div>
+	</div>
+
+	</form>
+<script type="text/javascript">
+
+	movePage = function(v) {
+		ajxm = true;
+
+		var params = {};
+		if ( typeof $.bbq != 'undefined' ) {
+			if ( typeof $.bbq.getState('params') != 'undefined' ) {
+				params = $.bbq.getState('params');
+			}
+		}
+		if (v == 0 || v == 1) {
+			params.idx = 1;
+			$('.lst100 > td').hide();
+			$('.lst100').hide();
+			$('.lst50').show();
+			$('.lst50 > td').show();
+			$('.page_num').html("<strong><span class=\"none\">현재페이지</span>1 - 50 <em>위</em></strong><a href=\"javascript:movePage(2);\" title=\"51 - 100 위 - 페이지 이동\">51 - 100 <em>위</em></a>");
+
+		} else if (v == 2) {
+			params.idx = 51;
+			$('.lst50 > td').hide();
+			$('.lst50').hide();
+			$('.lst100').show();
+			$('.lst100 > td').show();
+			$('.page_num').html("<a href=\"javascript:movePage(1);\" title=\"51 - 100 위 - 페이지 이동\">1 - 50 <em>위</em></a><strong><span class=\"none\">현재페이지</span>51 - 100 <em>위</em></strong>");
+		}
+		if (typeof $.bbq != 'undefined' && v != 0) {
+			$.bbq.pushState({params:params});
+		} else {
+			ajxm = false;
+		}
+		WEBELLIPSIS.ellipsis("checkEllipsis","wrap_atist",240);
+
+		$('.input_check').checked(false);
+		//$('.input_check').each(function() {
+		//});
+		$(window).scrollTop(0);
+	}
+
+	$(function(){
+		
+			
+		
+		/* 좋아요 셋팅부 */
+		var LIKE_SET = {
+			likeTop  : "<span class=\"odd_span\">{TXT}</span>",
+			likeCnt  : "<span class=\"odd_span\">{TXT}</span>\n<span class=\"cnt\">\n<span class=\"none\">총건수</span>\n{CNT}</span>",
+			likeObj  : $('div.d_song_list button.like'),
+			likeAttr : 'data-song-no',
+			likeUrl  : '/commonlike/getSongLike.json'
+		};
+
+		/* 좋아요 공통부 */
+		var contsIdList = LIKE_SET['likeObj'].map(function() { return $(this).attr(LIKE_SET['likeAttr']); }).get().join(',');
+		var tmpl, title;
+		//if ( contsIdList === '' || contsIdList === null  ) { return; }
+		$.get(LIKE_SET['likeUrl'], { contsIds : contsIdList }, function(data) {
+			var robj;
+			$.each(data.contsLike, function(i, v) {
+				robj  = LIKE_SET['likeObj'].eq(i);
+				title = robj.attr('title').split(' 좋아요');
+				robj[v.LIKEYN == 'Y' ? 'addClass' : 'removeClass']('on').attr('title', title[0] + (v.LIKEYN == 'Y' ? ' 좋아요 취소' : ' 좋아요'));
+				if ( robj.is('button.btn_icon_emphs') ) {
+					tmpl  = LIKE_SET[ 'likeTop' ]; // 실시간 급상승 차트 용
+					robj.html(
+						tmpl.replace(/\{TXT\}/g, (v.LIKEYN == 'Y' ? '좋아요 취소' : '좋아요'))
+					);
+					robj.next().html(v.SUMMCNT.toString().replace(/(\d)(?=(?:\d{3})+$)/g, "$1,"));
+				} else {
+					tmpl  = LIKE_SET[ 'likeCnt' ];
+					robj.html(
+						tmpl.replace(/\{TXT\}/g, (v.LIKEYN == 'Y' ? '좋아요 취소' : '좋아요')).replace(/\{CNT\}/g, v.SUMMCNT.toString().replace(/(\d)(?=(?:\d{3})+$)/g, "$1,"))
+					).prop('disabled', true).prop('disabled', false);
+				}
+			});
+		}).done(function(){
+			/* 아티스트 더보기 실행 */
+			WEBELLIPSIS.ellipsis("checkEllipsis","wrap_atist",240);
+		});
+		/* 멜론 차트 곡만 듣기 */
+		playChart = function() {
+			var songList = $('div.d_song_list button.play').map(function() { return $(this).attr('data-song-no'); }).get();
+			melon.play.playSong('19080101', songList);
+		}
+		/* 리스트 다중 선택 */
+		$('.input_check').optShift();
+		/* 페이징 노출*/
+		$('.chart_page').css({'display':''});
+
+	});
+</script>
+

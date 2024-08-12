@@ -1,0 +1,51 @@
+
+<div id="conts" data-targetId="song">
+	<input type="hidden" id="targetId" value="song" />
+</div>
+<input type="hidden" id="returnUrl" value="" />
+<script type="text/javascript">
+	var targetId = document.getElementById("targetId").value;
+	if(targetId == "artist") {
+		alert('존재하지 않는 아티스트 정보입니다.');
+	} else if(targetId == "album") {
+		alert('존재하지 않는 앨범 정보입니다.');
+	} else if(targetId == "song") {
+		alert('존재하지 않는 곡 정보입니다.');
+	} else if(targetId == "video") {
+		alert('존재하지 않는 영상 정보입니다.');
+	} else if(targetId == "hidden_video") {
+		alert('비공개된 컨텐츠입니다.');
+	} else if(targetId == "playlist") {
+		alert('존재하지 않는 플레이리스트 정보입니다.');
+	} else if(targetId == "perf") {
+		alert('존재하지 않는 공연 정보입니다.');
+	} else if(targetId == "mstory") {
+		alert('삭제된 페이지입니다. \n뮤직스토리 목록으로 돌아갑니다.');
+    } else if(targetId == "entnews") {
+        alert('삭제된 기사입니다. \n확인을 누르시면 뮤직스토리 메인으로 이동합니다.');
+	} else if(targetId == "hidden_playlist") {
+		alert('비공개된 플레이리스트 정보입니다.');
+	} else if(targetId == "private") {
+		alert('맺은팬 전용 콘텐츠 입니다.');
+	} else if(targetId == "theme") {
+		alert('존재하지 않는 테마입니다.');
+	} else if(targetId == "story") {
+		alert('존재하지 않는 스토리입니다.');		
+	} else if(targetId == "nowplaying") {
+        alert('존재하지 않는 나우플레잉입니다.');
+    } else if(targetId == "fanMagaz"){
+        alert('이 콘텐츠는 모바일 환경에서 확인해 주세요.');
+	} else if(targetId == "tsSong") {
+		alert('권리침해 신고에 의해 임시조치 되었습니다.');
+	} else {
+		alert('잘못된 접근입니다.');
+	}
+
+	var returnUrl = document.getElementById("returnUrl").value;
+	if(returnUrl == "") {
+		window.history.back();
+	} else {
+		location.href = returnUrl;
+	}
+</script>
+
